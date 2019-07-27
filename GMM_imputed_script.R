@@ -82,7 +82,12 @@ return(t(GMM_imputed_X_tab))
 }
 
 
-
+res <- GMM_impute_wrapper(sce,42,2,10,0.8) 
+              
+assays(sce)[["GMM_impute"]] <- res
+              
+#finally all the results are saved in sce object               
+              
 
 
 
