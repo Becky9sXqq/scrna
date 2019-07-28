@@ -1,4 +1,27 @@
 ### functions  ####
+alpha2mu = function(alpha){
+    # global var mu0
+    return ( cumsum(c(mu0,alpha)) )
+  }
+  mu2alpha = function(mus){
+    return ( diff(mus) )
+  }
+  beta2sigma = function(beta){
+    # beta is for the variance
+    # global var sigma0
+    return( cumprod( c(sigma0,sqrt(beta)) ) )
+  }
+  beta2var = function(beta){
+    # global var sigma0
+    return( cumprod(c(sigma0^2,beta)) )
+  }
+  sigma2beta = function(sigmas){
+    return (exp(diff(log(sigmas)))^2)
+  }
+  var2beta = function(vars){
+    return (exp(diff(log(vars))))
+  }
+
 odgmm = function(X,n_max_comp,debug=FALSE){
   # X: data, a 1-dimensional vector
   # n_max_comp: maximum number of components
@@ -331,37 +354,3 @@ gmmpdf = function(x, mus, sigmas, ws, log=FALSE){
     return (y)
   }
 }
-
-####  main code #####
-## part 1: simulate data from Gaussian mixture
-N = 2000
-wghs = c(0.2,0.1,0.7)
-components = sample(1:3,prob=wghs,size=N,replace=TRUE)
-mus = c(0, 2,  5)
-sds = c(0.1, 0.5, 2)
-sgs = sds^2
-
-X = rnorm(n=N,mean=mus[components],sd=sds[components])
-
-## part 2: estimating the components
-res = odgmm(X,4,debug=F)
-
-alpha = res[[1]]
-beta = res[[2]]
-ws = res[[3]]
-logml = res[[4]]
-Z = res[[5]]
-final_bic = res[[6]]
-
-## part 3: display results
-# display fitting with original density
-emus = alpha2mu(alpha)
-esgs = beta2sigma(beta)
-ews = ws
-
-x = seq(-2,max(X)+1,0.01)
-ey = gmmpdf(x, emus, esgs, ews)
-
-plot(density(X,bw='sj'),ylim=c(0,0.9),main="GMM vs kernel density")
-lines(x,ey,col="red",lwd=2)
-legend("topright",c("Estimated GMM Density","Kernel Density"),col=c("red","black"),lwd=2)
