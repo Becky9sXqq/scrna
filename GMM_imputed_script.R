@@ -1,13 +1,15 @@
 ## First step:
 ##after loading GMM model's all functions
 ##fitting for single cell matrix: row is genes column is cell
+source('https://github.com/Becky9sXqq/scrna/edit/master/odgmm.R')
+
 GMM_impute_wrapper <- function(sce, seed = 42, comp = 2,ncores = 10 , rate = 0.8) {
   
 library(parallel)
 mu0 = 0
 sigma0 = 0.1
 set.seed(seed)
-X_tab = as.matrix(t(assays(sce)[["counts"]]))
+X_tab = as.matrix(assays(sce)[["counts"]])
 
 ## main step for fitting
 mclapply(1:dim(X_tab)[1],function(i){
@@ -86,31 +88,4 @@ res <- GMM_impute_wrapper(sce,42,2,10,0.8)
               
 assays(sce)[["GMM_impute"]] <- res
               
-#finally all the results are saved in sce object               
-              
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#finally all the results are saved in sce object    
