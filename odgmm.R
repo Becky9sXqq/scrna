@@ -3,24 +3,13 @@ alpha2mu = function(alpha){
     # global var mu0
     return ( cumsum(c(mu0,alpha)) )
   }
-  mu2alpha = function(mus){
-    return ( diff(mus) )
-  }
-  beta2sigma = function(beta){
+
+beta2sigma = function(beta){
     # beta is for the variance
     # global var sigma0
     return( cumprod( c(sigma0,sqrt(beta)) ) )
   }
-  beta2var = function(beta){
-    # global var sigma0
-    return( cumprod(c(sigma0^2,beta)) )
-  }
-  sigma2beta = function(sigmas){
-    return (exp(diff(log(sigmas)))^2)
-  }
-  var2beta = function(vars){
-    return (exp(diff(log(vars))))
-  }
+
 
 odgmm = function(X,n_max_comp,debug=FALSE){
   # X: data, a 1-dimensional vector
@@ -341,6 +330,8 @@ odgmm = function(X,n_max_comp,debug=FALSE){
   
   return(curr_res)
 }
+
+
 gmmpdf = function(x, mus, sigmas, ws, log=FALSE){
   K = length(mus)
   N = length(x)
