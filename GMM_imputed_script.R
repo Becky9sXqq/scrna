@@ -86,12 +86,13 @@ XX_val = xvals[gene_inds]
 res_after_impute = gmm_impute(XX,XX_vals)
 X_impute = res_after_impute$impute_label_mat
 X_val_impute = res_after_impute$impute_val_mat # NA means values that does not need to be imputed
+              
 orig_data = t(X_tab[gene_inds,])
-orig_data_verse = t(X_tab[-gene_inds,])
 valid_inds = is.na(X_val_impute)
 X_val_impute[valid_inds] = orig_data[valid_inds]
-GMM_imputed_X_tab = cbind(orig_data_verse,X_val_impute)
-return(t(GMM_imputed_X_tab))
+GMM_imputed_X_tab = X_tab
+t(X_val_impute) ->  GMM_imputed_X_tab[gene_inds,]         
+return(GMM_imputed_X_tab)
 }
 
 
