@@ -1,7 +1,9 @@
 ## First step:
 ##after loading GMM model's all functions
 ##fitting for single cell matrix: row is genes column is cell
-source('https://github.com/Becky9sXqq/scrna/blob/master/odgmm.R')
+library(devtools)
+source_url("https://github.com/Becky9sXqq/scrna/blob/master/odgmm.R")
+
 
 GMM_impute_wrapper <- function(sce, seed = 42, comp = 2,ncores = 10 , rate = 0.8) {
   
