@@ -56,6 +56,16 @@ n_cell = dim(X_tab)[2]
 X = matrix(0, nrow = n_cell, ncol = n_gene)
 xvals <- vector("list", length = n_gene)
 
+proc_res = function(res){
+  Z = res[[5]]
+  mus = res[[1]]  
+  L = dim(Z)[2]
+  y = apply(Z,1,which.max)
+  y = y-1
+  new_mus = c(mus[-1],mean(mus[-1]))
+  return(list(label=y, mus=new_mus))
+}      
+              
 for(i in seq(n_gene)){
   cat("proc gene",i,"\n")
   tmpres = proc_res(GMM_res_withoutNA[[i]]$res)
