@@ -11,10 +11,12 @@ mu0 = 0
 sigma0 = 0.1
 set.seed(seed)
 X_tab = as.matrix(assays(sce)[["counts"]])
-
+comp = comp
+  
 ## main step for fitting
 mclapply(1:dim(X_tab)[1],function(i){
   X = X_tab[i,]#X_tab is the matrix need to be fitted by GMM
+  comp = comp
   res = tryCatch(odgmm(X,comp), error=function(e) NA)
   alpha = tryCatch(res[[1]], error=function(e) NA)
   beta = tryCatch(res[[2]], error=function(e) NA)
