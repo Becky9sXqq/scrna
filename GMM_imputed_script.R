@@ -85,7 +85,7 @@ gene_inds = which(keep_rate > rate)
 
 XX = X[,gene_inds]
 XX_val = xvals[gene_inds]
-res_after_impute = gmm_impute(XX,XX_vals)
+res_after_impute = gmm_impute(XX,XX_val)
 X_impute = res_after_impute$impute_label_mat
 X_val_impute = res_after_impute$impute_val_mat # NA means values that does not need to be imputed
               
